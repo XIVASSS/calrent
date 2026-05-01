@@ -1,5 +1,6 @@
 import { SignInForm } from "../../../components/auth/SignInForm";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export default function SignInPage() {
   return (
@@ -9,7 +10,15 @@ export default function SignInPage() {
         Sign in with your email to manage listings, contact owners, and shortlist homes.
       </p>
       <div className="mt-8">
-        <SignInForm />
+        <Suspense
+          fallback={
+            <div className="rounded-2xl border border-ink-100 bg-ink-50 p-4 text-sm text-ink-600">
+              Loading sign-in form...
+            </div>
+          }
+        >
+          <SignInForm />
+        </Suspense>
       </div>
       <p className="mt-6 text-sm text-ink-500">
         New to CalRent?{" "}
