@@ -1,0 +1,74 @@
+[
+  {
+    "source": "99acres",
+    "externalId": "99-1001",
+    "headline": "Spacious 2BHK near Ruby Hospital, balcony, semi furnished",
+    "details": "Bright 2bhk with balcony. Metro commute friendly and family safe. Wifi, geyser, lift available. Rent 16500 deposit 33000. Non-veg okay.",
+    "rentAmount": 16500,
+    "location": "Near Ruby Hospital, EM Bypass",
+    "url": "https://www.99acres.com/listing/ruby-2bhk-1001",
+    "contactName": "Saha Properties",
+    "contactPhone": "+91 98300 12345"
+  },
+  {
+    "source": "magicbricks",
+    "externalId": "mb-2004",
+    "headline": "3BHK in Salt Lake Sector V, fully furnished",
+    "details": "3bhk for IT professionals, pets allowed, quiet building, ac in master bedroom, parking, lift. Family preferred. Rent 32000 deposit 64000.",
+    "rentAmount": 32000,
+    "location": "Salt Lake Sector V, Kolkata",
+    "url": "https://www.magicbricks.com/listing/saltlake-3bhk-2004",
+    "contactName": "Salt Lake Realty",
+    "contactPhone": "+91 98740 22113",
+    "contactEmail": "saltlake@example.com"
+  },
+  {
+    "source": "facebook",
+    "externalId": "fb-7788",
+    "headline": "1 room in New Town shared flat, female only",
+    "details": "Remote workers welcome. no pets. veg only. wifi, common kitchen, geyser. Single sharing, semi furnished, 9000 rent.",
+    "rentAmount": 9000,
+    "location": "New Town, Action Area I"
+  },
+  {
+    "source": "99acres",
+    "externalId": "99-1192",
+    "headline": "Cozy 1BHK studio near Park Street, fully furnished",
+    "details": "Studio apartment with all amenities. wifi, ac, geyser, lift, parking. Rent 18000 deposit 36000. Couple friendly.",
+    "rentAmount": 18000,
+    "location": "Park Street",
+    "url": "https://www.99acres.com/listing/park-street-studio-1192",
+    "contactName": "Park Stay",
+    "contactPhone": "+91 90000 22222"
+  },
+  {
+    "source": "magicbricks",
+    "externalId": "mb-3041",
+    "headline": "Triple sharing male PG in Garia, meals included",
+    "details": "Affordable PG with 3 beds. meals included, laundry, wifi. Walking distance to Garia bus stand. Rent 6500.",
+    "rentAmount": 6500,
+    "location": "Garia",
+    "url": "https://www.magicbricks.com/listing/garia-pg-3041",
+    "contactName": "Sukhi Boys Hostel",
+    "contactPhone": "+91 90100 33445"
+  },
+  {
+    "source": "facebook",
+    "externalId": "fb-8821",
+    "headline": "Looking for flatmate - 2BHK in Tollygunge",
+    "details": "Working professional looking for one female flatmate. Double sharing room with attached bath. Quiet, near Tollygunge metro. wifi, geyser. Rent 11500 deposit 23000.",
+    "rentAmount": 11500,
+    "location": "Tollygunge"
+  },
+  {
+    "source": "99acres",
+    "externalId": "99-1421",
+    "headline": "2BHK in New Alipore, semi furnished",
+    "details": "Quiet residential building with parking, lift, 24x7 water and power backup. Rent 27000 deposit 54000. Family preferred.",
+    "rentAmount": 27000,
+    "location": "New Alipore",
+    "url": "https://www.99acres.com/listing/new-alipore-2bhk-1421",
+    "contactName": "Mr. Ghosh",
+    "contactPhone": "+91 98000 99001"
+  }
+]

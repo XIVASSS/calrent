@@ -1,0 +1,29 @@
+import { DiscoveryShell } from "../components/discovery/DiscoveryShell";
+import { searchListings, KOLKATA_DEFAULT_BOUNDS } from "../lib/listings/queries";
+import { getCurrentProfile } from "../lib/supabase/profile";
+import { getSupabaseServer } from "../lib/supabase/server";
+import { QuickActionFab } from "../components/quick-add/QuickActionFab";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export default async function HomePage() {
+  const initialListings = await searchListings(KOLKATA_DEFAULT_BOUNDS);
+  const profile = await getCurrentProfile();
+  let shortlistIds: string[] = [];
+  if (profile) {
+    const supabase = getSupabaseServer();
+    const { data } = await supabase.from("shortlists").select("listing_id").eq("user_id", profile.id);
+    shortlistIds = (data ?? []).map((row) => row.listing_id);
+  }
+  return (
+    <main className="mx-auto w-full max-w-[1400px] px-4 pb-12 pt-4 lg:px-8">
+      <DiscoveryShell
+        initialListings={initialListings}
+        initialShortlist={shortlistIds}
+        isAuthenticated={Boolean(profile)}
+      />
+      <QuickActionFab />
+    </main>
+  );
+}
