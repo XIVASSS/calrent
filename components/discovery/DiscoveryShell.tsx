@@ -38,12 +38,14 @@ type DiscoveryShellProps = {
   initialListings: PublicListing[];
   initialShortlist?: string[];
   isAuthenticated?: boolean;
+  mapApiKey?: string;
 };
 
 export function DiscoveryShell({
   initialListings,
   initialShortlist = [],
   isAuthenticated = false,
+  mapApiKey = "",
 }: DiscoveryShellProps) {
   const { filters, setFilters, setListingCount, setHomeDiscoveryActive, setFiltersPanelOpen } =
     useDiscoveryHome();
@@ -87,7 +89,7 @@ export function DiscoveryShell({
   };
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "",
+    googleMapsApiKey: mapApiKey,
   });
 
   // Always use the live result length. Never fall back to SSR count when length is 0 —
@@ -222,10 +224,14 @@ export function DiscoveryShell({
 
   const visibleListings = useMemo(() => listings, [listings]);
 
-  if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
+  if (!mapApiKey) {
     return (
       <div className="grid h-[80vh] place-items-center text-sm text-ink-500">
-        Set <code className="mx-1 rounded bg-ink-100 px-2 py-1">NEXT_PUBLIC_GOOGLE_MAPS_API_KEY</code> to load the map.
+        Set{" "}
+        <code className="mx-1 rounded bg-ink-100 px-2 py-1">NEXT_PUBLIC_GOOGLE_MAPS_API_KEY</code>
+        {" "}or{" "}
+        <code className="mx-1 rounded bg-ink-100 px-2 py-1">GOOGLE_MAPS_API_KEY</code>
+        {" "}to load the map.
       </div>
     );
   }

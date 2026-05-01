@@ -9,6 +9,8 @@ export const revalidate = 0;
 
 export default async function HomePage() {
   const initialListings = await searchListings(KOLKATA_DEFAULT_BOUNDS);
+  const mapApiKey =
+    process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? process.env.GOOGLE_MAPS_API_KEY ?? "";
   const profile = await getCurrentProfile();
   let shortlistIds: string[] = [];
   if (profile) {
@@ -22,6 +24,7 @@ export default async function HomePage() {
         initialListings={initialListings}
         initialShortlist={shortlistIds}
         isAuthenticated={Boolean(profile)}
+        mapApiKey={mapApiKey}
       />
       <QuickActionFab />
     </main>
