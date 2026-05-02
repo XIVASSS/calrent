@@ -443,17 +443,26 @@ export function DiscoveryShell({
               action={<Button onClick={() => setFilters(defaultFilters)}>Reset filters</Button>}
             />
           ) : (
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-              {listings.map((listing) => (
-                <ListingCard
+            <div className="max-lg:flex max-lg:flex-col max-lg:gap-0 max-lg:pb-20 lg:grid lg:grid-cols-1 lg:gap-4 xl:grid-cols-2">
+              {listings.map((listing, index) => (
+                <div
                   key={listing.id}
-                  listing={listing}
-                  isHighlighted={hovered === listing.id || selected?.id === listing.id}
-                  onHover={() => setHovered(listing.id)}
-                  onBlur={() => setHovered((curr) => (curr === listing.id ? null : curr))}
-                  isShortlisted={shortlist.has(listing.id)}
-                  onShortlist={() => void toggleShortlist(listing.id)}
-                />
+                  className={cn(
+                    "lg:contents",
+                    // Mobile: deck of cards — sticky + overlap so the next listing slides over the last
+                    "max-lg:first:mt-0 max-lg:-mt-[4.5rem] max-lg:sticky max-lg:top-3 max-lg:rounded-3xl max-lg:border max-lg:border-ink-100 max-lg:bg-white max-lg:p-2 max-lg:px-1.5 max-lg:shadow-card max-lg:pb-1"
+                  )}
+                  style={{ zIndex: index + 1 }}
+                >
+                  <ListingCard
+                    listing={listing}
+                    isHighlighted={hovered === listing.id || selected?.id === listing.id}
+                    onHover={() => setHovered(listing.id)}
+                    onBlur={() => setHovered((curr) => (curr === listing.id ? null : curr))}
+                    isShortlisted={shortlist.has(listing.id)}
+                    onShortlist={() => void toggleShortlist(listing.id)}
+                  />
+                </div>
               ))}
             </div>
           )}
