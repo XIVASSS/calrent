@@ -228,13 +228,10 @@ export function DiscoveryShell({
       ? "fixed inset-0 z-[100] h-[100dvh] rounded-none border-0 shadow-none"
       : [
           "rounded-2xl border border-ink-100",
-          // Mobile: sticky below header + search bar; stays on screen while listings scroll
-          "sticky z-30 lg:z-auto",
-          // Below sticky header (~5rem) + search pill row (~3.25–3.75rem); notch-safe
-          "top-[max(8.75rem,calc(7.25rem+env(safe-area-inset-top,0px)))] max-lg:max-w-[calc(100vw-2rem)]",
-          "h-[min(42vh,420px)] min-h-[248px] max-h-[460px]",
-          // Desktop: right column height
-          "lg:sticky lg:top-24 lg:h-[calc(100vh-160px)] lg:min-h-[560px] lg:max-h-none lg:max-w-none lg:rounded-3xl",
+          // Mobile: fixed-height band; listings scroll in sibling pane (no overlap behind map)
+          "h-[min(40vh,400px)] min-h-[232px] max-h-[440px]",
+          // Desktop: sticky map column
+          "lg:sticky lg:top-24 lg:z-auto lg:h-[calc(100vh-160px)] lg:min-h-[560px] lg:max-h-none lg:rounded-3xl",
         ]
   );
 
@@ -390,20 +387,26 @@ export function DiscoveryShell({
   );
 
   return (
-    <div className="space-y-3">
+    <div className="flex flex-col gap-3 max-lg:min-h-0 max-lg:flex-1">
       <FilterBar filters={filters} onChange={setFilters} totalCount={total} />
 
       <div
         className={cn(
-          "flex flex-col gap-3",
-          mapFullscreen ? "lg:block" : "lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-4 lg:items-start"
+          "flex min-h-0 flex-col gap-3",
+          mapFullscreen
+            ? "max-lg:flex-none max-lg:overflow-visible lg:block"
+            : [
+                "max-lg:flex-1 max-lg:overflow-hidden",
+                "lg:grid lg:h-auto lg:overflow-visible lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-4 lg:items-start",
+              ]
         )}
       >
         <section
           className={cn(
             "order-2 space-y-3 lg:order-1 lg:min-h-0",
             mapFullscreen && "hidden",
-            "pb-2 lg:pb-0"
+            "pb-2 lg:pb-0",
+            "max-lg:flex-1 max-lg:min-h-0 max-lg:overflow-y-auto max-lg:overscroll-y-contain max-lg:border-t max-lg:border-ink-100 max-lg:bg-white max-lg:pt-3 max-lg:rounded-b-2xl"
           )}
           aria-label="Listings"
         >

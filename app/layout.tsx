@@ -17,7 +17,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const profile = await getCurrentProfile();
   return (
     <html lang="en" className="bg-white text-ink-900">
-      <body className="min-h-screen bg-white text-ink-900 antialiased">
+      <body className="flex min-h-[100dvh] flex-col bg-white text-ink-900 antialiased">
         <DiscoveryHomeProvider>
           <Header
             user={
@@ -26,7 +26,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                 : null
             }
           />
-          <div className="min-h-[calc(100vh-160px)]">{children}</div>
+          <div className="flex min-h-0 flex-1 flex-col">{children}</div>
           <Footer />
           <LinkedInCredit />
         </DiscoveryHomeProvider>

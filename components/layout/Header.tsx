@@ -20,7 +20,7 @@ export function Header({ user }: HeaderProps) {
   const discovery = useDiscoveryHomeOptional();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-ink-100 bg-white/90 backdrop-blur-md">
+    <header className="sticky top-0 z-40 shrink-0 border-b border-ink-100 bg-white/90 backdrop-blur-md">
       <div className="mx-auto flex h-20 w-full max-w-[1400px] items-center justify-between px-4 lg:px-8">
         <Link href="/" className="flex items-center">
           <span className="text-2xl font-semibold tracking-tight text-ink-900">
