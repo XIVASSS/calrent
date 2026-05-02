@@ -23,9 +23,9 @@ export function LinkedInCredit() {
   if (dismissed) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 z-40 flex items-center gap-2 print:hidden md:bottom-6 md:left-6">
+    <div className="pointer-events-none fixed bottom-4 left-4 z-40 flex items-center gap-2 print:hidden md:bottom-6 md:left-6">
       {open ? (
-        <div className="flex items-center gap-3 rounded-full border border-ink-100 bg-white px-3 py-2 shadow-floating">
+        <div className="pointer-events-auto flex items-center gap-3 rounded-full border border-ink-100 bg-white px-3 py-2 shadow-floating">
           <a
             href="https://www.linkedin.com/in/protyasish/?skipRedirect=true"
             target="_blank"
@@ -42,6 +42,7 @@ export function LinkedInCredit() {
             </span>
           </a>
           <button
+            type="button"
             onClick={() => {
               window.localStorage.setItem(STORAGE_KEY, "1");
               setDismissed(true);
@@ -54,8 +55,9 @@ export function LinkedInCredit() {
         </div>
       ) : (
         <button
+          type="button"
           onClick={() => setOpen(true)}
-          className="grid h-10 w-10 place-items-center rounded-full bg-white text-ink-700 shadow-card hover:shadow-floating"
+          className="pointer-events-auto grid h-10 w-10 place-items-center rounded-full bg-white text-ink-700 shadow-card hover:shadow-floating"
           aria-label="About the maker"
         >
           ✨

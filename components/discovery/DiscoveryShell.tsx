@@ -390,7 +390,7 @@ export function DiscoveryShell({
   );
 
   return (
-    <div className="flex flex-col gap-3 max-lg:min-h-0 max-lg:flex-1">
+    <div className="flex flex-col gap-3 max-lg:h-full max-lg:min-h-0 max-lg:flex-[1_1_0%] max-lg:overflow-hidden">
       <FilterBar filters={filters} onChange={setFilters} totalCount={total} />
 
       <div
@@ -399,7 +399,7 @@ export function DiscoveryShell({
           mapFullscreen
             ? "max-lg:flex-none max-lg:overflow-visible lg:block"
             : [
-                "max-lg:flex-1 max-lg:overflow-hidden",
+                "max-lg:min-h-0 max-lg:flex-[1_1_0%] max-lg:overflow-hidden",
                 "lg:grid lg:h-auto lg:overflow-visible lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-4 lg:items-start",
               ]
         )}
@@ -409,7 +409,8 @@ export function DiscoveryShell({
             "order-2 space-y-3 lg:order-1 lg:min-h-0",
             mapFullscreen && "hidden",
             "pb-2 lg:pb-0 max-lg:pb-28",
-            "max-lg:flex-1 max-lg:min-h-0 max-lg:overflow-y-auto max-lg:overscroll-y-contain max-lg:border-t max-lg:border-ink-100 max-lg:bg-white max-lg:pt-3 max-lg:rounded-b-2xl",
+            // flex-basis 0 + min-h-0: panel must shrink so overflow-y-auto actually scrolls (keeps map on screen)
+            "max-lg:flex-[1_1_0%] max-lg:min-h-0 max-lg:overflow-y-auto max-lg:overscroll-y-contain max-lg:border-t max-lg:border-ink-100 max-lg:bg-white max-lg:pt-3 max-lg:rounded-b-2xl",
             "touch-pan-y"
           )}
           style={{ WebkitOverflowScrolling: "touch" }}
@@ -455,8 +456,8 @@ export function DiscoveryShell({
                     key={listing.id}
                     className={cn(
                       "lg:contents",
-                      // Mobile: sticky deck — next card slides over the previous; GPU hint helps iOS compositing
-                      "max-lg:sticky max-lg:top-2 max-lg:scroll-mt-2 max-lg:rounded-3xl max-lg:border max-lg:border-ink-100 max-lg:bg-white max-lg:p-2 max-lg:px-1.5 max-lg:pb-1 max-lg:shadow-card max-lg:[transform:translate3d(0,0,0)]"
+                      // Mobile: overlapping deck (no position:sticky — sticky + full-card links breaks touch scroll on iOS)
+                      "max-lg:relative max-lg:rounded-3xl max-lg:border max-lg:border-ink-100 max-lg:bg-white max-lg:p-2 max-lg:px-1.5 max-lg:pb-1 max-lg:shadow-card"
                     )}
                     style={{
                       zIndex: index + 1,
@@ -490,7 +491,13 @@ export function DiscoveryShell({
           )}
         </section>
 
-        <aside className={cn("order-1 lg:order-2", mapShellClass)} aria-label="Map">
+        <aside
+          className={cn(
+            "order-1 flex-none lg:order-2",
+            mapShellClass
+          )}
+          aria-label="Map"
+        >
           {mapInner}
         </aside>
       </div>

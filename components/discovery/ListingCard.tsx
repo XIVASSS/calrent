@@ -36,7 +36,7 @@ export function ListingCard({
       onMouseEnter={onHover}
       onMouseLeave={onBlur}
       className={cn(
-        "group block overflow-hidden rounded-3xl border border-transparent bg-white transition-all duration-200",
+        "group block touch-pan-y overflow-hidden rounded-3xl border border-transparent bg-white transition-all duration-200",
         "hover:border-ink-100 hover:shadow-cardHover",
         isHighlighted && "border-ink-100 shadow-cardHover"
       )}
@@ -47,7 +47,8 @@ export function ListingCard({
           <img
             src={listing.cover_image}
             alt={listing.title}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            draggable={false}
+            className="h-full w-full select-none object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-ink-100 to-ink-50 text-ink-400">

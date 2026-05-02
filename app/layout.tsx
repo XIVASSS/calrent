@@ -26,7 +26,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                 : null
             }
           />
-          <div className="flex min-h-0 flex-1 flex-col">{children}</div>
+          <div className="flex min-h-0 w-full flex-1 flex-col">{children}</div>
           <Footer />
           <LinkedInCredit />
         </DiscoveryHomeProvider>
