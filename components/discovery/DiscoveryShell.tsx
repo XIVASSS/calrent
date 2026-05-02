@@ -19,6 +19,9 @@ import { cn } from "../../lib/utils";
 
 const KOLKATA_CENTER = { lat: 22.5726, lng: 88.3639 };
 
+/** Pull each mobile listing card over the previous one; spacer below restores scroll extent (negative margins shrink scroll height otherwise). */
+const MOBILE_CARD_STACK_OVERLAP_REM = 4.5;
+
 const MAP_LIGHT_STYLES: google.maps.MapTypeStyle[] = [
   { elementType: "geometry", stylers: [{ color: "#f5f5f3" }] },
   { elementType: "labels.icon", stylers: [{ visibility: "off" }] },
@@ -405,9 +408,11 @@ export function DiscoveryShell({
           className={cn(
             "order-2 space-y-3 lg:order-1 lg:min-h-0",
             mapFullscreen && "hidden",
-            "pb-2 lg:pb-0",
-            "max-lg:flex-1 max-lg:min-h-0 max-lg:overflow-y-auto max-lg:overscroll-y-contain max-lg:border-t max-lg:border-ink-100 max-lg:bg-white max-lg:pt-3 max-lg:rounded-b-2xl"
+            "pb-2 lg:pb-0 max-lg:pb-28",
+            "max-lg:flex-1 max-lg:min-h-0 max-lg:overflow-y-auto max-lg:overscroll-y-contain max-lg:border-t max-lg:border-ink-100 max-lg:bg-white max-lg:pt-3 max-lg:rounded-b-2xl",
+            "touch-pan-y"
           )}
+          style={{ WebkitOverflowScrolling: "touch" }}
           aria-label="Listings"
         >
           <div className="flex items-center justify-between gap-2 px-0.5">
@@ -443,28 +448,45 @@ export function DiscoveryShell({
               action={<Button onClick={() => setFilters(defaultFilters)}>Reset filters</Button>}
             />
           ) : (
-            <div className="max-lg:flex max-lg:flex-col max-lg:gap-0 max-lg:pb-20 lg:grid lg:grid-cols-1 lg:gap-4 xl:grid-cols-2">
-              {listings.map((listing, index) => (
+            <>
+              <div className="max-lg:flex max-lg:flex-col max-lg:gap-0 lg:grid lg:grid-cols-1 lg:gap-4 xl:grid-cols-2">
+                {listings.map((listing, index) => (
+                  <div
+                    key={listing.id}
+                    className={cn(
+                      "lg:contents",
+                      // Mobile: sticky deck — next card slides over the previous; GPU hint helps iOS compositing
+                      "max-lg:sticky max-lg:top-2 max-lg:scroll-mt-2 max-lg:rounded-3xl max-lg:border max-lg:border-ink-100 max-lg:bg-white max-lg:p-2 max-lg:px-1.5 max-lg:pb-1 max-lg:shadow-card max-lg:[transform:translate3d(0,0,0)]"
+                    )}
+                    style={{
+                      zIndex: index + 1,
+                      ...(index > 0
+                        ? { marginTop: `${-MOBILE_CARD_STACK_OVERLAP_REM}rem` }
+                        : undefined),
+                    }}
+                  >
+                    <ListingCard
+                      listing={listing}
+                      isHighlighted={hovered === listing.id || selected?.id === listing.id}
+                      onHover={() => setHovered(listing.id)}
+                      onBlur={() => setHovered((curr) => (curr === listing.id ? null : curr))}
+                      isShortlisted={shortlist.has(listing.id)}
+                      onShortlist={() => void toggleShortlist(listing.id)}
+                    />
+                  </div>
+                ))}
+              </div>
+              {/* Negative margins shorten scroll range; this restores full touch-scroll distance */}
+              {listings.length > 1 ? (
                 <div
-                  key={listing.id}
-                  className={cn(
-                    "lg:contents",
-                    // Mobile: deck of cards — sticky + overlap so the next listing slides over the last
-                    "max-lg:first:mt-0 max-lg:-mt-[4.5rem] max-lg:sticky max-lg:top-3 max-lg:rounded-3xl max-lg:border max-lg:border-ink-100 max-lg:bg-white max-lg:p-2 max-lg:px-1.5 max-lg:shadow-card max-lg:pb-1"
-                  )}
-                  style={{ zIndex: index + 1 }}
-                >
-                  <ListingCard
-                    listing={listing}
-                    isHighlighted={hovered === listing.id || selected?.id === listing.id}
-                    onHover={() => setHovered(listing.id)}
-                    onBlur={() => setHovered((curr) => (curr === listing.id ? null : curr))}
-                    isShortlisted={shortlist.has(listing.id)}
-                    onShortlist={() => void toggleShortlist(listing.id)}
-                  />
-                </div>
-              ))}
-            </div>
+                  aria-hidden
+                  className="pointer-events-none shrink-0 max-lg:block lg:hidden"
+                  style={{
+                    height: `${(listings.length - 1) * MOBILE_CARD_STACK_OVERLAP_REM}rem`,
+                  }}
+                />
+              ) : null}
+            </>
           )}
         </section>
 
