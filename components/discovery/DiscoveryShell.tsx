@@ -20,7 +20,7 @@ import { cn } from "../../lib/utils";
 const KOLKATA_CENTER = { lat: 22.5726, lng: 88.3639 };
 
 /** Pull each mobile listing card over the previous one; spacer below restores scroll extent (negative margins shrink scroll height otherwise). */
-const MOBILE_CARD_STACK_OVERLAP_REM = 4.5;
+const MOBILE_CARD_STACK_OVERLAP_REM = 6.5;
 
 const MAP_LIGHT_STYLES: google.maps.MapTypeStyle[] = [
   { elementType: "geometry", stylers: [{ color: "#f5f5f3" }] },
@@ -395,22 +395,24 @@ export function DiscoveryShell({
 
       <div
         className={cn(
-          "flex min-h-0 flex-col gap-3",
+          "min-h-0 gap-3",
           mapFullscreen
-            ? "max-lg:flex-none max-lg:overflow-visible lg:block"
+            ? "flex flex-col max-lg:flex-none max-lg:overflow-visible lg:block"
             : [
-                "max-lg:min-h-0 max-lg:flex-[1_1_0%] max-lg:overflow-hidden",
-                "lg:grid lg:h-auto lg:overflow-visible lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-4 lg:items-start",
+                // Mobile: grid row 1 = map (auto), row 2 = listings (minmax(0,1fr)) — reliable scrollport on WebKit
+                "grid max-lg:flex-1 max-lg:min-h-0 max-lg:grid-cols-1 max-lg:grid-rows-[auto_minmax(0,1fr)] max-lg:overflow-hidden",
+                "lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:grid-rows-1 lg:items-start lg:overflow-visible lg:h-auto",
+                "lg:gap-4",
               ]
         )}
       >
         <section
           className={cn(
-            "order-2 space-y-3 lg:order-1 lg:min-h-0",
+            "flex min-h-0 flex-col gap-3 lg:min-h-0",
             mapFullscreen && "hidden",
+            // Mobile: second grid row fills remaining height; DOM stays section-then-aside, so pin to row 2
+            "max-lg:row-start-2 max-lg:h-full max-lg:min-h-0 max-lg:overflow-y-auto max-lg:overscroll-y-auto max-lg:border-t max-lg:border-ink-100 max-lg:bg-white max-lg:pt-3 max-lg:rounded-b-2xl",
             "pb-2 lg:pb-0 max-lg:pb-28",
-            // flex-basis 0 + min-h-0: panel must shrink so overflow-y-auto actually scrolls (keeps map on screen)
-            "max-lg:flex-[1_1_0%] max-lg:min-h-0 max-lg:overflow-y-auto max-lg:overscroll-y-contain max-lg:border-t max-lg:border-ink-100 max-lg:bg-white max-lg:pt-3 max-lg:rounded-b-2xl",
             "touch-pan-y"
           )}
           style={{ WebkitOverflowScrolling: "touch" }}
@@ -457,7 +459,7 @@ export function DiscoveryShell({
                     className={cn(
                       "lg:contents",
                       // Mobile: overlapping deck (no position:sticky — sticky + full-card links breaks touch scroll on iOS)
-                      "max-lg:relative max-lg:rounded-3xl max-lg:border max-lg:border-ink-100 max-lg:bg-white max-lg:p-2 max-lg:px-1.5 max-lg:pb-1 max-lg:shadow-card"
+                      "max-lg:relative max-lg:rounded-3xl max-lg:border max-lg:border-ink-100/90 max-lg:bg-white max-lg:p-2 max-lg:px-1.5 max-lg:pb-1 max-lg:shadow-floating max-lg:ring-1 max-lg:ring-ink-100/80"
                     )}
                     style={{
                       zIndex: index + 1,
@@ -493,7 +495,7 @@ export function DiscoveryShell({
 
         <aside
           className={cn(
-            "order-1 flex-none lg:order-2",
+            "flex-none max-lg:row-start-1 lg:col-start-2",
             mapShellClass
           )}
           aria-label="Map"

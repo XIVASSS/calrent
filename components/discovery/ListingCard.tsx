@@ -1,6 +1,7 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { Heart, Star, ShieldCheck } from "lucide-react";
 import type { PublicListing } from "../../lib/supabase/types";
 import { formatRentCompact, cn } from "../../lib/utils";
@@ -30,23 +31,40 @@ export function ListingCard({
   onShortlist,
   isShortlisted,
 }: ListingCardProps) {
+  const router = useRouter();
+  const href = `/listing/${listing.id}`;
+
+  useEffect(() => {
+    router.prefetch(href);
+  }, [router, href]);
+
   return (
-    <Link
-      href={`/listing/${listing.id}`}
-      onMouseEnter={onHover}
-      onMouseLeave={onBlur}
+    <article
+      role="link"
+      tabIndex={0}
+      aria-label={`Open listing: ${listing.title}`}
       className={cn(
-        "group block touch-pan-y overflow-hidden rounded-3xl border border-transparent bg-white transition-all duration-200",
+        "group cursor-pointer touch-pan-y overflow-hidden rounded-3xl border border-transparent bg-white outline-none transition-all duration-200",
         "hover:border-ink-100 hover:shadow-cardHover",
+        "focus-visible:border-brand focus-visible:ring-2 focus-visible:ring-brand/30",
         isHighlighted && "border-ink-100 shadow-cardHover"
       )}
+      onMouseEnter={onHover}
+      onMouseLeave={onBlur}
+      onClick={() => router.push(href)}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          router.push(href);
+        }
+      }}
     >
       <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-ink-100">
         {listing.cover_image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={listing.cover_image}
-            alt={listing.title}
+            alt=""
             draggable={false}
             className="h-full w-full select-none object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
@@ -133,6 +151,6 @@ export function ListingCard({
           )}
         </p>
       </div>
-    </Link>
+    </article>
   );
 }
