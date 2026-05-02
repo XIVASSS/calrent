@@ -19,7 +19,7 @@ export default async function HomePage() {
     shortlistIds = (data ?? []).map((row) => row.listing_id);
   }
   return (
-    <main className="mx-auto w-full max-w-[1400px] px-4 pb-12 pt-4 lg:px-8">
+    <main className="mx-auto w-full max-w-[1400px] px-4 pb-28 pt-4 lg:px-8 lg:pb-12">
       <DiscoveryShell
         initialListings={initialListings}
         initialShortlist={shortlistIds}
