@@ -458,8 +458,8 @@ export function DiscoveryShell({
                     key={listing.id}
                     className={cn(
                       "lg:contents",
-                      // Mobile: overlapping deck (no position:sticky — sticky + full-card links breaks touch scroll on iOS)
-                      "max-lg:relative max-lg:rounded-3xl max-lg:border max-lg:border-ink-100/90 max-lg:bg-white max-lg:p-2 max-lg:px-1.5 max-lg:pb-1 max-lg:shadow-floating max-lg:ring-1 max-lg:ring-ink-100/80"
+                      // Mobile: sticky deck — each card sticks until the next slides over it (ListingCard uses article + router, not full-card Link)
+                      "max-lg:sticky max-lg:top-2 max-lg:scroll-mt-2 max-lg:rounded-3xl max-lg:border max-lg:border-ink-100/90 max-lg:bg-white max-lg:p-2 max-lg:px-1.5 max-lg:pb-1 max-lg:shadow-floating max-lg:ring-1 max-lg:ring-ink-100/80 max-lg:[transform:translateZ(0)]"
                     )}
                     style={{
                       zIndex: index + 1,
