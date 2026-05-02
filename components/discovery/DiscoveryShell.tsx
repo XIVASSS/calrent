@@ -416,7 +416,7 @@ export function DiscoveryShell({
               ) : (
                 <>
                   <span className="font-semibold text-ink-900">{total}+ homes</span>{" "}
-                  <span className="hidden xs:inline">in this view</span>
+                  <span className="hidden sm:inline">in this view</span>
                 </>
               )}
             </p>
