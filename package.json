@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "ingest": "node lib/ingest/run-ingest.mjs"
+    "ingest": "node lib/ingest/run-ingest.mjs",
+    "seed:kolkata": "node scripts/seed-kolkata-listings.mjs"
   },
   "keywords": [],
   "author": "",
